@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Shameers Plugins (Ignore these)
+.idea/discord.xml
+.idea/misc.xml
