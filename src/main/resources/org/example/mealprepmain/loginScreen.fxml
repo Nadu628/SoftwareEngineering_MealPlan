@@ -4,28 +4,22 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.LoginScreenController">
-   <left>
-      <VBox prefHeight="400.0" prefWidth="245.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="400.0" fitWidth="245.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </VBox>
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.LoginScreenController"
+       stylesheets="@styles/loginStyle.css" >
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.0" minWidth="0.0" prefWidth="35.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="92.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="153.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="106.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="0.0" prefWidth="0.0" />
         </columnConstraints>
@@ -59,7 +53,19 @@
                </font>
             </Label>
             <TextField fx:id="usernameField" onAction="#handleLogin" promptText="Enter username" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="loginTitle" alignment="CENTER" prefWidth="150.0" text="LOG IN" GridPane.columnIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </center>
+   <left>
+      <ImageView fx:id="sideImageGif" fitHeight="402.0" fitWidth="200.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@images/cooking.gif" />
+         </image>
+      </ImageView>
+   </left>
 </BorderPane>

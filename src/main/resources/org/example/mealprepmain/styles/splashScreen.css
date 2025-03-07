@@ -1,0 +1,10 @@
+.root{
+    -fx-background-color: linear-gradient(to bottom, black, hotpink);
+}
+
+.label{
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 28px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, black, 5, 0.5, 1, 1);
+}

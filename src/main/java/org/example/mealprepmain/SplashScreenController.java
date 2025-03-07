@@ -15,6 +15,10 @@ public class SplashScreenController {
     public void init(Stage stage) {
         this.stage = stage;
 
+        stage.setWidth(800);
+        stage.setHeight(600);
+        stage.getScene().getRoot().getStylesheets().add(String.valueOf(getClass().getResource("/styles/splashScreen.css")));
+
         new Thread(() -> {
             try {
                 Thread.sleep(3000); //3 seconds delay

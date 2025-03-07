@@ -1,12 +1,15 @@
 package org.example.mealprepmain;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class LoginScreenController {
+
+    private Stage stage;
 
     @FXML
     private TextField usernameField;
@@ -17,9 +20,23 @@ public class LoginScreenController {
     @FXML
     private Button loginButton;
 
-    public void initialize() {
-        System.out.println("Username: " + usernameField.getText()
-        + "\nPassword: " + passwordField.getText());
+    @FXML
+    private Label loginTitle;
+
+    @FXML
+    private ImageView sideImageGif;
+
+    public void initialize(Stage stage) {
+        this.stage = stage;
+        Image stirfry = new Image(getClass().getResourceAsStream("/images/stirfry.gif"));
+        sideImageGif.setImage(stirfry);
+
+        sideImageGif.setFitWidth(245);
+        sideImageGif.setFitHeight(190);
+        sideImageGif.setPreserveRatio(false);
+
+
+        stage.getScene().getStylesheets().add((getClass().getResource("/styles/loginStyles.css").toExternalForm()));
     }
 
     @FXML
