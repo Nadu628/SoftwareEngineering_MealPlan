@@ -35,7 +35,7 @@
     -fx-background-radius: 10;
 }
 
-.login-button{
+.button{
     -fx-background-color: linear-gradient(to right, #FF69B4, #FF1493);
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 18px;

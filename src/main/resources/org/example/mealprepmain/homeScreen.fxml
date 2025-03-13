@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="mealsIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/foodIcon.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="plannerIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@images/calenderIcon.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </ImageView>
+            <ImageView fx:id="ingridientsIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@images/ingredientsIcon.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </ImageView>
+         </children>
+      </GridPane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane layoutY="57.0" prefHeight="544.0" prefWidth="700.0">
+               <children>
+                  <Pane fx:id="mealPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                     <children>
+                        <Label fx:id="mealLabel" layoutX="14.0" layoutY="14.0" text="Meal Label" underline="true">
+                           <font>
+                              <Font name="Monospaced Regular" size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="mealImageview" fitHeight="250.0" fitWidth="200.0" layoutX="14.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />
+                        <TextArea fx:id="nutritionFactsTextArea" layoutX="14.0" layoutY="321.0" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="recipeTextArea" layoutX="328.0" layoutY="47.0" prefHeight="316.0" prefWidth="219.0" />
+                        <Button fx:id="addMealButton" layoutX="328.0" layoutY="396.0" mnemonicParsing="false" text="Add">
+                           <font>
+                              <Font name="Monospaced Regular" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="removeMealButton" layoutX="476.0" layoutY="396.0" mnemonicParsing="false" text="Remove">
+                           <font>
+                              <Font name="Monospaced Regular" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="ingredientsPane" focusTraversable="true" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Ingredients List">
+                           <font>
+                              <Font name="Monospaced Regular" size="20.0" />
+                           </font>
+                        </Label>
+                        <SplitPane dividerPositions="0.41348973607038125" layoutX="10.0" layoutY="38.0" prefHeight="499.0" prefWidth="684.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="497.0" prefWidth="213.0">
+                                 <children>
+                                    <ScrollPane layoutY="25.0" prefHeight="475.0" prefWidth="279.0">
+                                      <content>
+                                        <AnchorPane fx:id="shoppingListP" minHeight="0.0" minWidth="0.0" prefHeight="496.0" prefWidth="279.0">
+                                             <children>
+                                                <Pane fx:id="shoppingListPane" prefHeight="459.0" prefWidth="265.0">
+                                                   <children>
+                                                      <CheckBox fx:id="ingredientsCheckBox" mnemonicParsing="false" />
+                                                   </children>
+                                                </Pane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                    <Label layoutX="14.0" layoutY="6.0" text="Shopping List">
+                                       <font>
+                                          <Font name="Monospaced Regular" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <Pane fx:id="ingredientInfoPane" prefHeight="497.0" prefWidth="399.0">
+                                       <children>
+                                          <Label layoutY="6.0" text="Search Ingredient:">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Button fx:id="addToListButton" layoutX="14.0" layoutY="446.0" mnemonicParsing="false" text="Add to List">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="12.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="removeFromListButton" layoutX="140.0" layoutY="445.0" mnemonicParsing="false" text="Remove From List">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="12.0" />
+                                             </font>
+                                          </Button>
+                                          <TextField fx:id="ingredientSearchBarTextField" layoutX="140.0" layoutY="2.0" prefHeight="25.0" prefWidth="172.0" />
+                                          <Button fx:id="ingredientSearchButton" layoutX="320.0" layoutY="2.0" mnemonicParsing="false" text="Search">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Label layoutY="48.0" text="Nutrition Facts: ">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="ingredientLabel" layoutX="14.0" layoutY="80.0" text="Ingredient: ">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="calorieLabel" layoutX="14.0" layoutY="108.0" text="Calories:">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="proteinLabel" layoutX="14.0" layoutY="136.0" text="Protein: ">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="fatLabel" layoutX="14.0" layoutY="160.0" text="Fat: ">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="carbsLabel" layoutX="14.0" layoutY="183.0" text="Carbs:">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="sugarLabel" layoutX="14.0" layoutY="209.0" text="Sugar: ">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="fiberLabel" layoutX="14.0" layoutY="233.0" text="Fiber: ">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="calendarPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+                     <children>
+                        <Label fx:id="mealPlannerLabel" layoutX="14.0" layoutY="14.0" text="Meal Planner" underline="true">
+                           <font>
+                              <Font name="Monospaced Regular" size="20.0" />
+                           </font>
+                        </Label>
+                        <SplitPane dividerPositions="0.5" layoutX="6.0" layoutY="58.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="688.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="686.0">
+                                 <children>
+                                    <GridPane fx:id="calendarGridpane" layoutX="14.0" layoutY="14.0" prefHeight="215.0" prefWidth="665.0">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="184.0" minHeight="10.0" prefHeight="184.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label fx:id="sundayLabel" text="Sunday">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="mondayLabel" text="Monday" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="tuesdayLabel" text="Tuesday" GridPane.columnIndex="2">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="wednesdayLabel" text="Wednesday" GridPane.columnIndex="3">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="thursdayLabel" text="Thursday" GridPane.columnIndex="4">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="fridayLabel" text="Friday" GridPane.columnIndex="5">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="saturdayLabel" text="Saturday" GridPane.columnIndex="6">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextArea fx:id="sundayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="12.0" />
+                                             </font>
+                                          </TextArea>
+                                          <TextArea fx:id="mondayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="tuesdayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="wednesdayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="thursdayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="fridayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="saturdayMealPlanTF" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="215.0" prefWidth="686.0">
+                                 <children>
+                                    <Pane fx:id="comboBoxPane" layoutX="-1.0" prefHeight="235.0" prefWidth="686.0">
+                                       <children>
+                                          <Label layoutX="75.0" layoutY="44.0" text="Day">
+                                             <font>
+                                                <Font name="Monospaced Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="261.0" layoutY="44.0" text="Meal Type">
+                                             <font>
+                                                <Font name="Monospaced Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="551.0" layoutY="44.0" text="Meal">
+                                             <font>
+                                                <Font name="Monospaced Bold" size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="dayCB" layoutX="14.0" layoutY="63.0" prefWidth="150.0" promptText="Select Day" />
+                                          <ComboBox fx:id="mealTypeCB" layoutX="227.0" layoutY="63.0" prefHeight="25.0" prefWidth="204.0" promptText="Breakfast / Lunch / Dinner" />
+                                          <ComboBox fx:id="selectMealCB" layoutX="494.0" layoutY="63.0" prefWidth="150.0" promptText="Select Meal" />
+                                          <Button fx:id="addToPlanButton" layoutX="534.0" layoutY="172.0" mnemonicParsing="false" text="Add to Plan">
+                                             <font>
+                                                <Font name="Monospaced Regular" size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </Pane>
+               </children>
+            </StackPane>
+            <Label fx:id="welcomeLabel" layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="102.0" text="Welcome">
+               <font>
+                  <Font name="Monospaced Regular" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="searchTextField" layoutX="368.0" layoutY="11.0" prefHeight="25.0" prefWidth="178.0" />
+            <Label layoutX="202.0" layoutY="16.0" text="Search for Recipes:">
+               <font>
+                  <Font name="Monospaced Regular" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="searchButton" layoutX="561.0" layoutY="11.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="74.0" styleClass="search-button" text="Search">
+               <font>
+                  <Font name="Monospaced Regular" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

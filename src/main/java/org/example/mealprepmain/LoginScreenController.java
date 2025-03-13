@@ -1,7 +1,9 @@
 package org.example.mealprepmain;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,6 +28,9 @@ public class LoginScreenController {
     @FXML
     private ImageView sideImageGif;
 
+    @FXML
+    private Button signUpButton;
+
     public void initialize(Stage stage) {
         this.stage = stage;
         Image stirfry = new Image(getClass().getResourceAsStream("/images/stirfry.gif"));
@@ -35,20 +40,27 @@ public class LoginScreenController {
         sideImageGif.setFitHeight(190);
         sideImageGif.setPreserveRatio(false);
 
-
-        stage.getScene().getStylesheets().add((getClass().getResource("/styles/loginStyles.css").toExternalForm()));
+        stage.getScene().getStylesheets().add((getClass().getResource("/styles/loginStyle.css").toExternalForm()));
     }
 
     @FXML
     private void handleLogin(){
         String username = usernameField.getText();
         String password = passwordField.getText();
-
         if(validateCredentials(username, password)){
-            showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
+            try{
+                FXMLLoader homescreenLoader = new FXMLLoader(getClass().getResource("/fxml/homeScreen.fxml"));
+                Scene homeScene = new Scene(homescreenLoader.load());
+
+                stage.setScene(homeScene);
+                stage.setTitle("Home");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }else{
-            showAlert(Alert.AlertType.ERROR, "Login Failed", "Please try again!");
+            showAlert(Alert.AlertType.ERROR, "Login Failed",  "Please try again");
         }
+
     }
 
     private boolean validateCredentials(String username, String password){
