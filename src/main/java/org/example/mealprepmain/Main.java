@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// Import Database Class
+import org.example.mealprepmain.database.Database;
+import java.sql.Connection;
+
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -19,6 +23,15 @@ public class Main extends Application {
 
         SplashScreenController splashScreenController = fxmlLoader.getController();
         splashScreenController.init(stage);
+
+        Connection connection = Database.connect();
+
+        if (connection != null) {
+            // Continue with the rest of your logic
+            System.out.println("Database connection successful!");
+        } else {
+            System.out.println("Database connection failed.");
+        }
     }
 
     public static void main(String[] args) {
