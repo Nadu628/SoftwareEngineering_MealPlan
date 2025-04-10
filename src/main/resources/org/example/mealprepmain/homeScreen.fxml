@@ -20,8 +20,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.HomeScreenController">
    <left>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -33,7 +32,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="mealsIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="mealsIcon" fitHeight="70.0" fitWidth="65.0" onMouseClicked="#showMealsPane" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/foodIcon.png" />
                </image>
@@ -41,7 +40,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="plannerIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+            <ImageView fx:id="plannerIcon" fitHeight="70.0" fitWidth="65.0" onMouseClicked="#showCalendarPane" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@images/calenderIcon.png" />
                </image>
@@ -49,7 +48,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="ingridientsIcon" fitHeight="70.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView fx:id="ingredientsIcon" fitHeight="70.0" fitWidth="65.0" onMouseClicked="#showIngredientsPane" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@images/ingredientsIcon.png" />
                </image>
@@ -307,7 +306,7 @@
                   </Pane>
                </children>
             </StackPane>
-            <Label fx:id="welcomeLabel" layoutX="14.0" layoutY="14.0" prefHeight="19.0" prefWidth="102.0" text="Welcome">
+            <Label fx:id="welcomeLabel" layoutX="14.0" layoutY="14.0" prefHeight="22.0" prefWidth="186.0" text="Welcome">
                <font>
                   <Font name="Monospaced Regular" size="15.0" />
                </font>
