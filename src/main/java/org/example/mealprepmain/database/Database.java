@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class Database {
     private static final String URL = "jdbc:sqlite:mealprep.db";
-
     public static Connection connect() {
         Connection conn = null;
         try {
