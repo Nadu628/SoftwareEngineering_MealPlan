@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.RegistrationScreenController">
+   <children>
+      <Pane fx:id="registrationPane" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="216.0" layoutY="28.0" text="Create an Account">
+               <font>
+                  <Font name="Monospaced Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="216.0" layoutY="118.0" text="First Name:">
+               <font>
+                  <Font name="Monospaced Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="216.0" layoutY="166.0" text="Last Name:">
+               <font>
+                  <Font name="Monospaced Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="216.0" layoutY="215.0" text="Email:">
+               <font>
+                  <Font name="Monospaced Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="216.0" layoutY="264.0" text="Date of Birth:">
+               <font>
+                  <Font name="Monospaced Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="216.0" layoutY="318.0" text="Food Preferences (Choose up to 5):">
+               <font>
+                  <Font name="Monospaced Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="firstNameTextField" layoutX="447.0" layoutY="118.0" prefHeight="25.0" prefWidth="223.0" promptText="required" />
+            <TextField fx:id="lastNameTextField" layoutX="447.0" layoutY="166.0" prefHeight="25.0" prefWidth="223.0" promptText="required" />
+            <TextField fx:id="emailTextField" layoutX="447.0" layoutY="215.0" prefHeight="25.0" prefWidth="223.0" promptText="required" />
+            <TextField fx:id="birthdayTextField" layoutX="447.0" layoutY="264.0" prefHeight="25.0" prefWidth="223.0" promptText="MM/DD/YYYY" />
+            <CheckBox fx:id="vegetarianCheckBox" layoutX="227.0" layoutY="371.0" mnemonicParsing="false" text="Vegetarian">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="veganCheckBox" layoutX="228.0" layoutY="407.0" mnemonicParsing="false" text="Vegan">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="glutenFreeCheckBox" layoutX="228.0" layoutY="447.0" mnemonicParsing="false" text="Gluten-Free">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="dairyFreeCheckBox" layoutX="228.0" layoutY="487.0" mnemonicParsing="false" text="Dairy-Free">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="ketoCheckBox" layoutX="228.0" layoutY="525.0" mnemonicParsing="false" text="Keto">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="paleoCheckBox" layoutX="387.0" layoutY="371.0" mnemonicParsing="false" text="Paleo">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="lowSodiumCheckBox" layoutX="387.0" layoutY="407.0" mnemonicParsing="false" text="Low-Sodium">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="lowCarbCheckBox" layoutX="387.0" layoutY="447.0" mnemonicParsing="false" text="Low Carb">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="highProteinCheckBox" layoutX="387.0" layoutY="487.0" mnemonicParsing="false" text="High Protein">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <CheckBox fx:id="nutFreeCheckBox" layoutX="387.0" layoutY="525.0" mnemonicParsing="false" text="Nut-Free">
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+            </CheckBox>
+            <ImageView fx:id="eatingImageView" fitHeight="189.0" fitWidth="180.0" layoutX="14.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/eatingImage.jpeg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
