@@ -10,18 +10,29 @@ public class SignUpScreenController {
 
     private Stage stage;
 
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private PasswordField confirmPasswordField;
+
+    @FXML
+    private Button createAccountButton;
+
+    @FXML
+    private Button backToLoginButton;
+    public void initialize(Stage stage) {
+        System.out.println("Initialize");
+    }
     public void setStage(Stage stage) {
         this.stage = stage;
-        // At this point, stage already has a scene, so this is safe
+
         if (stage != null && stage.getScene() != null) {
             stage.getScene().getStylesheets().add(getClass().getResource("/org/example/mealprepmain/styles/signupStyle.css").toExternalForm());
         }
     }
-
-    public void initialize(Stage stage) {
-        System.out.println("Initialize");
-    }
-
-
 
 }
