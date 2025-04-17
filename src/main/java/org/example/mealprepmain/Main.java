@@ -27,7 +27,6 @@ public class Main extends Application {
         Connection connection = Database.connect();
 
         if (connection != null) {
-            // Continue with the rest of your logic
             System.out.println("Database connection successful!");
         } else {
             System.out.println("Database connection failed.");
