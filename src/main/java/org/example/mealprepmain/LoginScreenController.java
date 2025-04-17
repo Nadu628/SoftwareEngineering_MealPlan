@@ -63,6 +63,26 @@ public class LoginScreenController {
 
     }
 
+    @FXML
+    private void handleSignUp() {
+        try {
+            FXMLLoader signupLoader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/signUpScreen.fxml"));
+            Scene signupScene = new Scene(signupLoader.load());
+
+            SignUpScreenController signUpController = signupLoader.getController();
+
+            stage.setScene(signupScene);
+            stage.setTitle("Sign Up");
+
+            signUpController.setStage(stage);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Could not open signup screen: " + e.getMessage());
+        }
+    }
+
     private boolean validateCredentials(String username, String password){
         return "username".equals(username) && "password".equals(password);
 
