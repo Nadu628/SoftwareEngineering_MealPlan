@@ -37,7 +37,7 @@
 
                 <!-- Add button section here -->
                 <HBox spacing="10" alignment="CENTER">
-                    <Button fx:id="createAccountButton" text="Create Account"/>
+                    <Button fx:id="createAccountButton" onAction="#handleCreateAccount" text="Create Account"/>
                     <Button fx:id="backToLoginButton" text="Back to Login"/>
                 </HBox>
             </VBox>
