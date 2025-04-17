@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -40,6 +41,7 @@ public class LoginScreenController {
     public void initialize() {
         System.out.println("Initializing Login Screen");
         loginButton.setOnAction(event -> handleLogin());
+        registerButton.setOnAction(event -> navigateToRegistration());
     }
 
     @FXML
@@ -135,6 +137,37 @@ public class LoginScreenController {
             showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occured while navigating to the home screen");
         }
 
+    }
+
+    @FXML
+    private void navigateToRegistration(){
+        try{
+            FadeTransition fadeout = new FadeTransition(Duration.seconds(1),stage.getScene().getRoot());
+            fadeout.setFromValue(1.0);
+            fadeout.setToValue(0.0);
+            fadeout.setOnFinished(event ->{
+                try{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/registrationScreen.fxml"));
+                    AnchorPane registrationScreen = loader.load();
+
+                    Scene registrationScene = new Scene(registrationScreen, 800, 600);
+                    stage.setScene(registrationScene);
+
+                    FadeTransition fadein = new FadeTransition(Duration.seconds(1),registrationScene.getRoot());
+                    fadein.setFromValue(0.0);
+                    fadein.setToValue(1.0);
+                    fadein.play();
+                    System.out.println("transitioned to registration screen");
+                }catch(IOException e){
+                    e.printStackTrace();
+                    System.err.println("Error transitioning to registration screen");
+                }
+            });
+            fadeout.play();
+        }catch(Exception e){
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occured while navigating to the registration screen");
+        }
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message){

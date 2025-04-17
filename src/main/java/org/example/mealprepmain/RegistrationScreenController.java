@@ -17,4 +17,9 @@ public class RegistrationScreenController {
     Pane registrationPane;
     @FXML
     ImageView eatingImageView;
+
+    @FXML
+    public void initialize() {
+        System.out.println("RegistrationScreenController initialized");
+    }
 }
