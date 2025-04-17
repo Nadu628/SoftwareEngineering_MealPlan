@@ -60,7 +60,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="signUpButton" mnemonicParsing="false" styleClass="sign-up" stylesheets="@styles/loginStyle.css" text="Sign Up" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <Button fx:id="signUpButton" onAction="#handleSignUp" mnemonicParsing="false" styleClass="sign-up" stylesheets="@styles/loginStyle.css" text="Sign Up" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <font>
                   <Font name="Monospaced Regular" size="14.0" />
                </font>
