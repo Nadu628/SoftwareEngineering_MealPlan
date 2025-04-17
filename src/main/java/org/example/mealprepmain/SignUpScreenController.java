@@ -35,4 +35,33 @@ public class SignUpScreenController {
         }
     }
 
+    @FXML
+    private void handleCreateAccount() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        // Error Handling for field related issues
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Registration Error", "All fields are required");
+            return;
+        }
+
+        if (password.length() < 6) {
+            showAlert(Alert.AlertType.ERROR, "Registration Error", "Password must be at least 6 characters");
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showAlert(Alert.AlertType.ERROR, "Registration Error", "Passwords do not match");
+            return;
+        }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }
