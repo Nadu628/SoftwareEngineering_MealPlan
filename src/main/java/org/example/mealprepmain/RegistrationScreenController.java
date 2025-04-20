@@ -22,4 +22,9 @@ public class RegistrationScreenController {
     public void initialize() {
         System.out.println("RegistrationScreenController initialized");
     }
+
+    @FXML
+    private void onRegisterButtonClick() {
+        System.out.println("Register Button clicked");
+    }
 }
