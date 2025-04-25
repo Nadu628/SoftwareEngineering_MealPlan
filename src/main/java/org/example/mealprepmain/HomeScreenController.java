@@ -101,7 +101,7 @@ public class HomeScreenController {
             return;
         }
         try{
-           String jsonResponse = recipeServer.searchRecipe(searchText, new User("John", "Doe", "john@gmail.com", "01/01/1999", List.of("vegetarien", "high-protein")));
+           String jsonResponse = recipeServer.searchRecipe(searchText, new User("John", "Doe", "john@gmail.com", "PasswordTest","01/01/1999", List.of("vegetarien", "high-protein")));
            List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
            System.out.println("Raw API response: " + jsonResponse);
            recipeList.clear();
