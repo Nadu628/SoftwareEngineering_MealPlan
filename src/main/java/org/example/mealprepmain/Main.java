@@ -3,6 +3,7 @@ package org.example.mealprepmain;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -14,8 +15,16 @@ import java.io.IOException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) {
-        try{
+    public void start(Stage stage) throws Exception {
+        //load homescreen
+
+        FXMLLoader homeLoader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/homeScreen.fxml"));
+        Parent homeRoot = homeLoader.load();
+        Scene scene = new Scene(homeRoot, 1000, 800);
+        stage.setTitle("Meal Prep");
+        stage.setScene(scene);
+        stage.show();
+        /*try{
             System.out.println("Starting application with splash screen");
 
             //load splash screen
@@ -38,6 +47,19 @@ public class Main extends Application {
             System.err.println("Error loading login screen");
             e.printStackTrace();
         }
+        this is to load splash screen DO NOT DELETE ABOVE
+         */
+
+        //Test Spoonacular API
+        /*RecipeServer server = new RecipeServer();
+        try{
+            String recipeJson = server.getRecipeInfo(123);
+            System.out.println("Raw JSON: " + recipeJson);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+         */
 
     }
 
