@@ -104,7 +104,7 @@
                   <Image url="@images/eatingImage.jpeg" />
                </image>
             </ImageView>
-            <Button fx:id="registerButton" layoutX="590.0" layoutY="530.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #4CAF50;" text="Register" textFill="WHITE">
+            <Button fx:id="registerButton" layoutX="590.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #4CAF50;" text="Register" textFill="WHITE">
                <font>
                   <Font name="Monospaced Bold" size="18.0" />
                </font>
