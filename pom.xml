@@ -89,6 +89,9 @@
                 <configuration>
                     <source>23</source>
                     <target>23</target>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -107,6 +110,9 @@
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <options>
+                                <option>--enable-preview</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>
