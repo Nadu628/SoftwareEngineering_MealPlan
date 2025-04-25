@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.mealprepmain.database.Database;
 
 import java.io.IOException;
 import java.sql.*;
@@ -61,8 +62,8 @@ public class LoginScreenController {
             showAlert(Alert.AlertType.WARNING, "Error", "Please enter all the fields");
             return;
         }
-        //authentication
-        if(validateCredentials(username, password)){
+        //authentication - change from validateCredentials to validateDatabaseCredentials
+        if(validateDatabaseCredentials(username, password)){
             try{
                 showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome " + username + "!");
                 navigateToHomeScreen();
@@ -72,32 +73,26 @@ public class LoginScreenController {
         }else{
             showAlert(Alert.AlertType.ERROR, "Login Failed",  "Please try again");
         }
-
     }
-
     private boolean validateCredentials(String username, String password){
         return (USERNAME.equals(username) || EMAIL.equals(username)) && HandlePasswordHash.checkPassword(password, PASSWORD);
     }
 
-    private boolean validateDatabaseCredentials(String username, String password){
-        final String DB_URL = "jdbc:mysql://localhost:3306/mealprepmain"; //replace "localhost" with serverName
-        final String DB_USER = "root"; //replace with db credentials
-        final String DB_PASS = "password_2002"; //replace with db credentials
-
-        try(Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)){
+    private boolean validateDatabaseCredentials(String username, String password) {
+        try (Connection conn = Database.connect()) {
             String query = "SELECT password FROM users WHERE username = ? OR email = ?";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1,username);
+            statement.setString(1, username);
             statement.setString(2, username);
 
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 String storedPasswordHash = resultSet.getString("password");
                 return HandlePasswordHash.checkPassword(password, storedPasswordHash);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Database Error", "An error occured while validating credentials");
+            showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while validating credentials");
         }
         return false;
     }
