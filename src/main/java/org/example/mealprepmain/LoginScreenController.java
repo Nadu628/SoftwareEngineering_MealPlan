@@ -115,6 +115,7 @@ public class LoginScreenController {
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Scene homeScene = new Scene(homeScreen, 800, 600);
                     stage.setScene(homeScene);
+                    stage.setMaximized(true);
 
                     FadeTransition fadein = new FadeTransition(Duration.seconds(1),homeScene.getRoot());
                     fadein.setFromValue(0.0);
