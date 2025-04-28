@@ -79,6 +79,7 @@
          </HBox>
 
          <Label fx:id="loadingLabel" text="Loading..." visible="false" style="-fx-font-size: 16px; -fx-text-fill: gray;" />
+
          <GridPane hgap="20" vgap="10">
             <columnConstraints>
                <ColumnConstraints percentWidth="35" />
@@ -88,12 +89,18 @@
                <RowConstraints vgrow="ALWAYS" />
             </rowConstraints>
 
-            <ScrollPane fx:id="ingredientScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" GridPane.columnIndex="0">
-               <content>
-                  <TilePane fx:id="ingredientsTilePane" />
-               </content>
-            </ScrollPane>
+            <!-- LEFT SIDE: Ingredients -->
+            <VBox spacing="10" GridPane.columnIndex="0">
+               <ScrollPane fx:id="ingredientScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="500">
+                  <content>
+                     <TilePane fx:id="ingredientsTilePane" />
+                  </content>
+               </ScrollPane>
 
+               <Button fx:id="removeIngredientsButton" text="Remove Selected Ingredients" />
+            </VBox>
+
+            <!-- RIGHT SIDE: Meal details -->
             <VBox spacing="10" GridPane.columnIndex="1">
                <Label fx:id="mealLabel" text="Meal Label" underline="true">
                   <font>

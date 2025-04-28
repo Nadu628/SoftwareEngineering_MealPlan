@@ -9,6 +9,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Node;
 import java.util.concurrent.CompletableFuture;
 
 public class HomeScreenController {
@@ -28,6 +29,8 @@ public class HomeScreenController {
     private VBox directionsVBox;
     @FXML
     private Label loadingLabel;
+    @FXML
+    private Button removeIngredientsButton;
 
     private RecipeServer recipeServer = new RecipeServer();
     private RecipeParser recipeParser = new RecipeParser();
@@ -35,6 +38,7 @@ public class HomeScreenController {
     private int currentRecipeIndex = 0;
 
     public void initialize() {
+        removeIngredientsButton.setOnAction(actionEvent -> removeSelectedIngredients());
         ingredientsTilePane.setPadding(new Insets(10));
         ingredientsTilePane.setHgap(10);
         ingredientsTilePane.setVgap(10);
@@ -150,16 +154,16 @@ public class HomeScreenController {
 
         if (recipe.getIngredients() != null) {
             for (Ingredient ingredient : recipe.getIngredients()) {
-                VBox ingredientBox = new VBox(5);
-                ingredientBox.setPadding(new Insets(5));
+                VBox ingredientBox = new VBox(1);
+                ingredientBox.setPadding(new Insets(1));
                 ingredientBox.setStyle("-fx-alignment: center;");
                 ingredientBox.setPrefWidth(140);
-                ingredientBox.setPrefHeight(160);
+                ingredientBox.setPrefHeight(60);
 
                 ImageView ingredientIV = new ImageView(new Image("https://spoonacular.com/cdn/ingredients_100x100/" + ingredient.getImage()));
                 ingredientIV.setPreserveRatio(true);
-                ingredientIV.setFitHeight(80);
-                ingredientIV.setFitWidth(80);
+                ingredientIV.setFitHeight(40);
+                ingredientIV.setFitWidth(40);
 
                 CheckBox ingredientCheckBox = new CheckBox(ingredient.getName());
                 ingredientCheckBox.setWrapText(true);
@@ -186,6 +190,25 @@ public class HomeScreenController {
             int columns = (int) (newVal.doubleValue() / 180);
             ingredientsTilePane.setPrefColumns(Math.max(columns, 1));
         });
+    }
+
+    private void removeSelectedIngredients() {
+        List<Node> toRemove = new ArrayList<>();
+
+        for (Node node : ingredientsTilePane.getChildren()) {
+            if (node instanceof VBox ingredientBox) {
+                for (Node child : ingredientBox.getChildren()) {
+                    if (child instanceof CheckBox checkBox) {
+                        if (checkBox.isSelected()) {
+                            toRemove.add(ingredientBox);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        ingredientsTilePane.getChildren().removeAll(toRemove);
     }
 
     private void clearMealPane() {
