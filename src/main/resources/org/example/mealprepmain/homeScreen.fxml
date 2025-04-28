@@ -78,6 +78,7 @@
             <Button fx:id="searchButton" text="Search" />
          </HBox>
 
+         <Label fx:id="loadingLabel" text="Loading..." visible="false" style="-fx-font-size: 16px; -fx-text-fill: gray;" />
          <GridPane hgap="20" vgap="10">
             <columnConstraints>
                <ColumnConstraints percentWidth="35" />

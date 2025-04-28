@@ -26,6 +26,8 @@ public class HomeScreenController {
     private TilePane ingredientsTilePane;
     @FXML
     private VBox directionsVBox;
+    @FXML
+    private Label loadingLabel;
 
     private RecipeServer recipeServer = new RecipeServer();
     private RecipeParser recipeParser = new RecipeParser();
@@ -58,57 +60,69 @@ public class HomeScreenController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     public void handleSearch() {
         String searchText = searchTextField.getText();
         if (searchText.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Empty Search", "Please search for a recipe");
             return;
         }
-        try {
-            String jsonResponse = recipeServer.searchRecipe(searchText, new User(
-                    "John", "Doe", "john@gmail.com", "PasswordTest", "01/01/1999", List.of("vegetarien", "high-protein")
-            ));
-            List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
+        loadingLabel.setVisible(true);
 
-            if (basicRecipes.isEmpty()) {
-                clearMealPane();
-                mealLabel.setText("No meals found");
-                return;
+        CompletableFuture.runAsync(() -> {
+            try {
+                String jsonResponse = recipeServer.searchRecipe(searchText, new User(
+                        "John", "Doe", "john@gmail.com", "PasswordTest", "01/01/1999", List.of("vegetarien", "high-protein")
+                ));
+                List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
+
+                if (basicRecipes.isEmpty()) {
+                    javafx.application.Platform.runLater(() -> {
+                        clearMealPane();
+                        mealLabel.setText("No meals found");
+                        loadingLabel.setVisible(false);
+                    });
+                    return;
+                }
+
+                List<CompletableFuture<Recipe>> futures = basicRecipes.stream()
+                        .map(recipe -> CompletableFuture.supplyAsync(() -> {
+                            try {
+                                String detailedJson = recipeServer.getRecipeInfo(recipe.getId());
+                                return recipeParser.parseRecipeDetails(detailedJson);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        }))
+                        .toList();
+
+                List<Recipe> detailedRecipes = futures.stream()
+                        .map(CompletableFuture::join)
+                        .filter(recipe -> recipe != null)
+                        .toList();
+
+                javafx.application.Platform.runLater(() -> {
+                    recipeList.clear();
+                    recipeList.addAll(detailedRecipes);
+
+                    if (!recipeList.isEmpty()) {
+                        currentRecipeIndex = 0;
+                        populateMealPane(recipeList.get(currentRecipeIndex));
+                    } else {
+                        clearMealPane();
+                        mealLabel.setText("No meals found");
+                    }
+                    loadingLabel.setVisible(false);
+                });
+
+            } catch (Exception e) {
+                javafx.application.Platform.runLater(() -> {
+                    showAlert(Alert.AlertType.ERROR, "Search Failed", "Unable to search for recipes");
+                    loadingLabel.setVisible(false);
+                });
+                e.printStackTrace();
             }
-
-            List<CompletableFuture<Recipe>> futures = basicRecipes.stream()
-                    .map(recipe -> CompletableFuture.supplyAsync(() -> {
-                        try {
-                            String detailedJson = recipeServer.getRecipeInfo(recipe.getId());
-                            return recipeParser.parseRecipeDetails(detailedJson);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                    }))
-                    .toList();
-
-            List<Recipe> detailedRecipes = futures.stream()
-                    .map(CompletableFuture::join)
-                    .filter(recipe -> recipe != null)
-                    .toList();
-
-            recipeList.clear();
-            recipeList.addAll(detailedRecipes);
-
-            if (!recipeList.isEmpty()) {
-                currentRecipeIndex = 0;
-                populateMealPane(recipeList.get(currentRecipeIndex));
-            } else {
-                clearMealPane();
-                mealLabel.setText("No meals found");
-            }
-
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Search Failed", "Unable to search for recipes");
-            e.printStackTrace();
-        }
+        });
     }
 
     private void populateMealPane(Recipe recipe) {
