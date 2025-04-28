@@ -23,6 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ListView?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.HomeScreenController">
 
    <left>
@@ -121,6 +122,7 @@
                      <Button fx:id="previousButton" text="Previous" />
                      <Button fx:id="nextButton" text="Next" />
                      <Button fx:id="clearButton" text="Clear" />
+                     <Button fx:id="saveMealButton" text="Save Current Meal" />
                   </HBox>
                </VBox>
             </GridPane>
@@ -129,6 +131,11 @@
          <!-- Ingredients Pane -->
          <VBox fx:id="ingredientsPane" spacing="20" visible="false" alignment="CENTER">
             <Label text="Ingredients Pane" style="-fx-font-size: 24px;" />
+            <VBox spacing="10" alignment="CENTER">
+               <Label text="Saved Meals" style="-fx-font-size: 18px;" />
+               <ListView fx:id="savedMealsListView" prefHeight="200" prefWidth="300" />
+            </VBox>
+
          </VBox>
 
          <!-- Calendar Pane -->

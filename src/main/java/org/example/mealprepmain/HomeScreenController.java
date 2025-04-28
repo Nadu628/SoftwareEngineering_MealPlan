@@ -35,6 +35,15 @@ public class HomeScreenController {
     @FXML private StackPane centerStack;
 
     @FXML
+    private Button saveMealButton;
+
+    @FXML
+    private ListView<String> savedMealsListView; // still part of ingredientsPane
+
+    private List<Meal> savedMeals = new ArrayList<>();
+
+
+    @FXML
     private Button removeIngredientsButton;
 
     private RecipeServer recipeServer = new RecipeServer();
@@ -59,6 +68,8 @@ public class HomeScreenController {
         mealsIcon.setOnMouseClicked(event -> showMealsPane());
         ingredientsIcon.setOnMouseClicked(event -> showIngredientsPane());
         plannerIcon.setOnMouseClicked(event -> showCalendarPane());
+
+        saveMealButton.setOnAction(event -> saveCurrentMeal());
     }
 
     @FXML
@@ -159,6 +170,34 @@ public class HomeScreenController {
             }
         });
     }
+
+    @FXML
+    private void saveCurrentMeal() {
+        if (mealLabel.getText() == null || mealLabel.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "No Meal", "No meal to save!");
+            return;
+        }
+
+        List<String> currentIngredients = new ArrayList<>();
+
+        for (Node node : ingredientsTilePane.getChildren()) {
+            if (node instanceof VBox ingredientBox) {
+                for (Node child : ingredientBox.getChildren()) {
+                    if (child instanceof CheckBox checkBox) {
+                        currentIngredients.add(checkBox.getText());
+                    }
+                }
+            }
+        }
+
+        Meal savedMeal = new Meal(mealLabel.getText(), currentIngredients);
+        savedMeals.add(savedMeal);
+
+        savedMealsListView.getItems().add(savedMeal.getTitle());
+
+        showAlert(Alert.AlertType.INFORMATION, "Meal Saved", "Meal '" + savedMeal.getTitle() + "' saved successfully!");
+    }
+
 
     private void populateMealPane(Recipe recipe) {
         mealLabel.setText(recipe.getTitle());
