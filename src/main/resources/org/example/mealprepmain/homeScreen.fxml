@@ -65,65 +65,78 @@
    </left>
 
    <center>
-      <VBox spacing="10">
-         <padding>
-            <Insets top="10" right="10" bottom="10" left="10" />
-         </padding>
+      <StackPane fx:id="centerStack">
 
-         <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-font-family: Monospaced; -fx-font-size: 16;" />
+         <!-- Meal Pane -->
+         <VBox fx:id="mealPane" spacing="10" visible="true">
+            <padding>
+               <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
 
-         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Search for Recipes:" />
-            <TextField fx:id="searchTextField" promptText="Enter recipe name" />
-            <Button fx:id="searchButton" text="Search" />
-         </HBox>
+            <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-font-family: Monospaced; -fx-font-size: 16;" />
 
-         <Label fx:id="loadingLabel" text="Loading..." visible="false" style="-fx-font-size: 16px; -fx-text-fill: gray;" />
+            <HBox spacing="10" alignment="CENTER_LEFT">
+               <Label text="Search for Recipes:" />
+               <TextField fx:id="searchTextField" promptText="Enter recipe name" />
+               <Button fx:id="searchButton" text="Search" />
+            </HBox>
 
-         <GridPane hgap="20" vgap="10">
-            <columnConstraints>
-               <ColumnConstraints percentWidth="35" />
-               <ColumnConstraints percentWidth="65" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints vgrow="ALWAYS" />
-            </rowConstraints>
+            <Label fx:id="loadingLabel" text="Loading..." visible="false" style="-fx-font-size: 16px; -fx-text-fill: gray;" />
 
-            <!-- LEFT SIDE: Ingredients -->
-            <VBox spacing="10" GridPane.columnIndex="0">
-               <ScrollPane fx:id="ingredientScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="500">
-                  <content>
-                     <TilePane fx:id="ingredientsTilePane" />
-                  </content>
-               </ScrollPane>
+            <GridPane hgap="20" vgap="10">
+               <columnConstraints>
+                  <ColumnConstraints percentWidth="35" />
+                  <ColumnConstraints percentWidth="65" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints vgrow="ALWAYS" />
+               </rowConstraints>
 
-               <Button fx:id="removeIngredientsButton" text="Remove Selected Ingredients" />
-            </VBox>
+               <VBox spacing="10" GridPane.columnIndex="0">
+                  <ScrollPane fx:id="ingredientScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="500">
+                     <content>
+                        <TilePane fx:id="ingredientsTilePane" />
+                     </content>
+                  </ScrollPane>
 
-            <!-- RIGHT SIDE: Meal details -->
-            <VBox spacing="10" GridPane.columnIndex="1">
-               <Label fx:id="mealLabel" text="Meal Label" underline="true">
-                  <font>
-                     <Font name="Monospaced Regular" size="20.0" />
-                  </font>
-               </Label>
+                  <Button fx:id="removeIngredientsButton" text="Remove Selected Ingredients" />
+               </VBox>
 
-               <ImageView fx:id="mealImageView" fitHeight="200" fitWidth="300" preserveRatio="true" />
+               <VBox spacing="10" GridPane.columnIndex="1">
+                  <Label fx:id="mealLabel" text="Meal Label" underline="true">
+                     <font>
+                        <Font name="Monospaced Regular" size="20.0" />
+                     </font>
+                  </Label>
 
-               <ScrollPane fx:id="directionsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="300">
-                  <content>
-                     <VBox fx:id="directionsVBox" spacing="5" />
-                  </content>
-               </ScrollPane>
+                  <ImageView fx:id="mealImageView" fitHeight="200" fitWidth="300" preserveRatio="true" />
 
-               <HBox spacing="10" alignment="CENTER">
-                  <Button fx:id="previousButton" text="Previous" />
-                  <Button fx:id="nextButton" text="Next" />
-                  <Button fx:id="clearButton" text="Clear" />
-               </HBox>
-            </VBox>
-         </GridPane>
-      </VBox>
+                  <ScrollPane fx:id="directionsScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="300">
+                     <content>
+                        <VBox fx:id="directionsVBox" spacing="5" />
+                     </content>
+                  </ScrollPane>
+
+                  <HBox spacing="10" alignment="CENTER">
+                     <Button fx:id="previousButton" text="Previous" />
+                     <Button fx:id="nextButton" text="Next" />
+                     <Button fx:id="clearButton" text="Clear" />
+                  </HBox>
+               </VBox>
+            </GridPane>
+         </VBox>
+
+         <!-- Ingredients Pane -->
+         <VBox fx:id="ingredientsPane" spacing="20" visible="false" alignment="CENTER">
+            <Label text="Ingredients Pane" style="-fx-font-size: 24px;" />
+         </VBox>
+
+         <!-- Calendar Pane -->
+         <VBox fx:id="calendarPane" spacing="20" visible="false" alignment="CENTER">
+            <Label text="Calendar Pane" style="-fx-font-size: 24px;" />
+         </VBox>
+
+      </StackPane>
    </center>
 
 </BorderPane>

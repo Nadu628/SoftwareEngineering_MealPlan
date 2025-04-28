@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
@@ -22,13 +23,17 @@ public class HomeScreenController {
     @FXML
     private Button searchButton, clearButton, nextButton, previousButton;
     @FXML
-    private ImageView mealImageView;
+    private ImageView mealImageView, mealsIcon, ingredientsIcon, plannerIcon;
     @FXML
     private TilePane ingredientsTilePane;
     @FXML
     private VBox directionsVBox;
     @FXML
     private Label loadingLabel;
+
+    @FXML private VBox mealPane, ingredientsPane, calendarPane;
+    @FXML private StackPane centerStack;
+
     @FXML
     private Button removeIngredientsButton;
 
@@ -50,7 +55,33 @@ public class HomeScreenController {
         clearButton.setOnAction(actionEvent -> clearMealPane());
         nextButton.setOnAction(actionEvent -> showNextRecipe());
         previousButton.setOnAction(actionEvent -> showPreviousRecipe());
+
+        mealsIcon.setOnMouseClicked(event -> showMealsPane());
+        ingredientsIcon.setOnMouseClicked(event -> showIngredientsPane());
+        plannerIcon.setOnMouseClicked(event -> showCalendarPane());
     }
+
+    @FXML
+    private void showMealsPane() {
+        mealPane.setVisible(true);
+        ingredientsPane.setVisible(false);
+        calendarPane.setVisible(false);
+    }
+
+    @FXML
+    private void showIngredientsPane() {
+        mealPane.setVisible(false);
+        ingredientsPane.setVisible(true);
+        calendarPane.setVisible(false);
+    }
+
+    @FXML
+    private void showCalendarPane() {
+        mealPane.setVisible(false);
+        ingredientsPane.setVisible(false);
+        calendarPane.setVisible(true);
+    }
+
 
     public void setUsername(String username) {
         if (welcomeLabel != null) {
