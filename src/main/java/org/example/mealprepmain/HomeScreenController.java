@@ -9,6 +9,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class HomeScreenController {
     @FXML
@@ -65,16 +66,37 @@ public class HomeScreenController {
             return;
         }
         try {
-            String jsonResponse = recipeServer.searchRecipe(searchText, new User("John", "Doe", "john@gmail.com", "PasswordTest", "01/01/1999", List.of("vegetarien", "high-protein")));
+            String jsonResponse = recipeServer.searchRecipe(searchText, new User(
+                    "John", "Doe", "john@gmail.com", "PasswordTest", "01/01/1999", List.of("vegetarien", "high-protein")
+            ));
             List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
-            recipeList.clear();
-            for (Recipe basicRecipe : basicRecipes) {
-                String detailedResponse = recipeServer.getRecipeInfo(basicRecipe.getId());
-                Recipe detailedRecipe = recipeParser.parseRecipeDetails(detailedResponse);
-                if (detailedRecipe != null) {
-                    recipeList.add(detailedRecipe);
-                }
+
+            if (basicRecipes.isEmpty()) {
+                clearMealPane();
+                mealLabel.setText("No meals found");
+                return;
             }
+
+            List<CompletableFuture<Recipe>> futures = basicRecipes.stream()
+                    .map(recipe -> CompletableFuture.supplyAsync(() -> {
+                        try {
+                            String detailedJson = recipeServer.getRecipeInfo(recipe.getId());
+                            return recipeParser.parseRecipeDetails(detailedJson);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }))
+                    .toList();
+
+            List<Recipe> detailedRecipes = futures.stream()
+                    .map(CompletableFuture::join)
+                    .filter(recipe -> recipe != null)
+                    .toList();
+
+            recipeList.clear();
+            recipeList.addAll(detailedRecipes);
+
             if (!recipeList.isEmpty()) {
                 currentRecipeIndex = 0;
                 populateMealPane(recipeList.get(currentRecipeIndex));
@@ -82,6 +104,7 @@ public class HomeScreenController {
                 clearMealPane();
                 mealLabel.setText("No meals found");
             }
+
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Search Failed", "Unable to search for recipes");
             e.printStackTrace();
