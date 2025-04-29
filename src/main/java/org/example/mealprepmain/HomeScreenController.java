@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class HomeScreenController {
+
     @FXML
     private ScrollPane directionsScrollPane, ingredientScrollPane;
     @FXML
@@ -38,6 +39,14 @@ public class HomeScreenController {
     private VBox mealPane, ingredientsPane, calendarPane;
     @FXML
     private ListView<String> savedMealsListView;
+    @FXML
+    private TilePane savedMealIngredientsTilePane;
+    @FXML
+    private ComboBox<String> daysComboBox;
+    @FXML
+    private Button assignMealButton;
+    @FXML
+    private ListView<String> calendarMealPlanListView;
 
     private RecipeServer recipeServer = new RecipeServer();
     private RecipeParser recipeParser = new RecipeParser();
@@ -45,6 +54,9 @@ public class HomeScreenController {
     private List<Meal> savedMeals = new ArrayList<>();
     private int currentRecipeIndex = 0;
     private int userId;
+
+    private final String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    private final List<String> mealPlan = new ArrayList<>();
 
     public void initialize() {
         // Button Actions
@@ -60,21 +72,36 @@ public class HomeScreenController {
         ingredientsIcon.setOnMouseClicked(event -> showIngredientsPane());
         plannerIcon.setOnMouseClicked(event -> showCalendarPane());
 
-        // Layout Settings
+        savedMealsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                showSavedMealInIngredientsPane(newSelection);
+            }
+        });
+
         ingredientsTilePane.setPadding(new Insets(10));
         ingredientsTilePane.setHgap(10);
         ingredientsTilePane.setVgap(10);
         directionsVBox.prefWidthProperty().bind(directionsScrollPane.widthProperty().subtract(20));
         directionsVBox.setSpacing(10);
+
+        // Meal Plan Setup
+        Database.createMealPlanTable();
+        daysComboBox.getItems().addAll(daysOfWeek);
+        for (int i = 0; i < 7; i++) mealPlan.add("");
+
+        assignMealButton.setOnAction(event -> assignMealToDay());
     }
 
-    // Setters for login data
     public void setUsername(String username) {
         welcomeLabel.setText("Welcome " + username + "!");
     }
+
     public void setUserId(int userId) {
         this.userId = userId;
         loadSavedMeals();
+        List<String> loadedPlan = Database.loadMealPlan(userId);
+        mealPlan.clear();
+        mealPlan.addAll(loadedPlan);
     }
 
     private void loadSavedMeals() {
@@ -86,36 +113,72 @@ public class HomeScreenController {
             savedMeals.add(meal);
             savedMealsListView.getItems().add(meal.getTitle());
         }
-
         System.out.println("Loaded " + meals.size() + " meals for user ID: " + userId);
     }
 
+    private void assignMealToDay() {
+        String selectedMeal = savedMealsListView.getSelectionModel().getSelectedItem();
+        String selectedDay = daysComboBox.getValue();
 
-    // Pane Visibility
+        if (selectedMeal == null || selectedDay == null) {
+            showAlert(Alert.AlertType.WARNING, "Incomplete Selection", "Please select a meal and a day!");
+            return;
+        }
+
+        int dayIndex = -1;
+        for (int i = 0; i < daysOfWeek.length; i++) {
+            if (daysOfWeek[i].equals(selectedDay)) {
+                dayIndex = i;
+                break;
+            }
+        }
+
+        if (dayIndex != -1) {
+            mealPlan.set(dayIndex, selectedMeal);
+            Database.saveMealPlan(userId, dayIndex, selectedMeal);
+            showAlert(Alert.AlertType.INFORMATION, "Meal Assigned", "Assigned '" + selectedMeal + "' to " + selectedDay + ".");
+        }
+    }
+
     private void showMealsPane() {
         mealPane.setVisible(true);
         ingredientsPane.setVisible(false);
         calendarPane.setVisible(false);
     }
+
     private void showIngredientsPane() {
         mealPane.setVisible(false);
         ingredientsPane.setVisible(true);
         calendarPane.setVisible(false);
     }
+
     private void showCalendarPane() {
         mealPane.setVisible(false);
         ingredientsPane.setVisible(false);
         calendarPane.setVisible(true);
+
+        updateCalendarView();
     }
 
-    // Search and Display Recipe
+    private void updateCalendarView() {
+        calendarMealPlanListView.getItems().clear();
+        for (int i = 0; i < daysOfWeek.length; i++) {
+            String day = daysOfWeek[i];
+            String meal = mealPlan.get(i);
+            if (meal == null || meal.isEmpty()) {
+                calendarMealPlanListView.getItems().add(day + ": No meal assigned");
+            } else {
+                calendarMealPlanListView.getItems().add(day + ": " + meal);
+            }
+        }
+    }
+
     private void handleSearch() {
         String searchText = searchTextField.getText().trim();
         if (searchText.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Empty Search", "Please enter a recipe to search for.");
             return;
         }
-
         loadingLabel.setVisible(true);
 
         CompletableFuture.runAsync(() -> {
@@ -125,7 +188,6 @@ public class HomeScreenController {
                 ));
                 List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
 
-                // 👇 ADD FILTERING for mock mode
                 List<Recipe> filteredRecipes = basicRecipes.stream()
                         .filter(recipe -> recipe.getTitle().toLowerCase().contains(searchText.toLowerCase()))
                         .toList();
@@ -253,7 +315,6 @@ public class HomeScreenController {
         savedMeals.add(savedMeal);
         savedMealsListView.getItems().add(savedMeal.getTitle());
 
-        // Save meal using Database.saveMeal
         String ingredientsAsString = String.join(",", currentIngredients);
         Database.saveMeal(userId, savedMeal.getTitle(), ingredientsAsString);
 
@@ -298,6 +359,35 @@ public class HomeScreenController {
             populateMealPane(recipeList.get(currentRecipeIndex));
         } else {
             showAlert(Alert.AlertType.INFORMATION, "Start of Recipes", "You are at the first recipe.");
+        }
+    }
+
+    private void showSavedMealInIngredientsPane(String mealTitle) {
+        savedMealIngredientsTilePane.getChildren().clear();
+
+        for (Meal meal : savedMeals) {
+            if (meal.getTitle().equals(mealTitle)) {
+                for (String ingredient : meal.getIngredients()) {
+                    VBox ingredientBox = new VBox(5);
+                    ingredientBox.setPadding(new Insets(5));
+                    ingredientBox.setStyle("-fx-alignment: center;");
+                    ingredientBox.setPrefWidth(120);
+                    ingredientBox.setPrefHeight(100);
+
+                    ImageView ingredientImage = new ImageView(new Image("https://spoonacular.com/cdn/ingredients_100x100/ingredient-placeholder.png"));
+                    ingredientImage.setFitHeight(40);
+                    ingredientImage.setFitWidth(40);
+                    ingredientImage.setPreserveRatio(true);
+
+                    Label ingredientLabel = new Label(ingredient);
+                    ingredientLabel.setWrapText(true);
+                    ingredientLabel.setStyle("-fx-font-family: Monospaced; -fx-font-size: 12px;");
+
+                    ingredientBox.getChildren().addAll(ingredientImage, ingredientLabel);
+                    savedMealIngredientsTilePane.getChildren().add(ingredientBox);
+                }
+                break;
+            }
         }
     }
 
