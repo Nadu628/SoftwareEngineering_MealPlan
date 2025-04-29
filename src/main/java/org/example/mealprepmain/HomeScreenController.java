@@ -38,6 +38,9 @@ public class HomeScreenController {
     private VBox mealPane, ingredientsPane, calendarPane;
     @FXML
     private ListView<String> savedMealsListView;
+    @FXML
+    private TilePane savedMealIngredientsTilePane;
+
 
     private RecipeServer recipeServer = new RecipeServer();
     private RecipeParser recipeParser = new RecipeParser();
@@ -59,6 +62,12 @@ public class HomeScreenController {
         mealsIcon.setOnMouseClicked(event -> showMealsPane());
         ingredientsIcon.setOnMouseClicked(event -> showIngredientsPane());
         plannerIcon.setOnMouseClicked(event -> showCalendarPane());
+
+        savedMealsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                showSavedMealInIngredientsPane(newSelection);
+            }
+        });
 
         // Layout Settings
         ingredientsTilePane.setPadding(new Insets(10));
@@ -89,6 +98,37 @@ public class HomeScreenController {
 
         System.out.println("Loaded " + meals.size() + " meals for user ID: " + userId);
     }
+
+    private void showSavedMealInIngredientsPane(String mealTitle) {
+        savedMealIngredientsTilePane.getChildren().clear(); // Clear previous ingredients
+
+        for (Meal meal : savedMeals) {
+            if (meal.getTitle().equals(mealTitle)) {
+                for (String ingredient : meal.getIngredients()) {
+                    VBox ingredientBox = new VBox(5);
+                    ingredientBox.setPadding(new Insets(5));
+                    ingredientBox.setStyle("-fx-alignment: center;");
+                    ingredientBox.setPrefWidth(120);
+                    ingredientBox.setPrefHeight(100);
+
+                    // Placeholder image
+                    ImageView ingredientImage = new ImageView(new Image("https://spoonacular.com/cdn/ingredients_100x100/ingredient-placeholder.png"));
+                    ingredientImage.setFitHeight(40);
+                    ingredientImage.setFitWidth(40);
+                    ingredientImage.setPreserveRatio(true);
+
+                    Label ingredientLabel = new Label(ingredient);
+                    ingredientLabel.setWrapText(true);
+                    ingredientLabel.setStyle("-fx-font-family: Monospaced; -fx-font-size: 12px;");
+
+                    ingredientBox.getChildren().addAll(ingredientImage, ingredientLabel);
+                    savedMealIngredientsTilePane.getChildren().add(ingredientBox);
+                }
+                break;
+            }
+        }
+    }
+
 
 
     // Pane Visibility

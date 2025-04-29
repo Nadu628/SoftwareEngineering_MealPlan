@@ -136,7 +136,17 @@
                <ListView fx:id="savedMealsListView" prefHeight="200" prefWidth="300" />
             </VBox>
 
+            <ScrollPane fitToWidth="true" prefHeight="300" prefWidth="300">
+               <content>
+                  <TilePane fx:id="savedMealIngredientsTilePane" hgap="10" vgap="10">
+                     <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                     </padding>
+                  </TilePane>
+               </content>
+            </ScrollPane>
          </VBox>
+
 
          <!-- Calendar Pane -->
          <VBox fx:id="calendarPane" spacing="20" visible="false" alignment="CENTER">
