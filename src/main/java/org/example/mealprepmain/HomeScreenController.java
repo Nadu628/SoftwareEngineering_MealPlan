@@ -110,11 +110,12 @@ public class HomeScreenController {
 
     // Search and Display Recipe
     private void handleSearch() {
-        String searchText = searchTextField.getText();
+        String searchText = searchTextField.getText().trim();
         if (searchText.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Empty Search", "Please enter a recipe to search for.");
             return;
         }
+
         loadingLabel.setVisible(true);
 
         CompletableFuture.runAsync(() -> {
@@ -124,7 +125,12 @@ public class HomeScreenController {
                 ));
                 List<Recipe> basicRecipes = recipeParser.parseSearchResults(jsonResponse);
 
-                if (basicRecipes.isEmpty()) {
+                // 👇 ADD FILTERING for mock mode
+                List<Recipe> filteredRecipes = basicRecipes.stream()
+                        .filter(recipe -> recipe.getTitle().toLowerCase().contains(searchText.toLowerCase()))
+                        .toList();
+
+                if (filteredRecipes.isEmpty()) {
                     javafx.application.Platform.runLater(() -> {
                         clearMealPane();
                         mealLabel.setText("No meals found.");
@@ -133,7 +139,7 @@ public class HomeScreenController {
                     return;
                 }
 
-                List<CompletableFuture<Recipe>> futures = basicRecipes.stream()
+                List<CompletableFuture<Recipe>> futures = filteredRecipes.stream()
                         .map(recipe -> CompletableFuture.supplyAsync(() -> {
                             try {
                                 String detailedJson = recipeServer.getRecipeInfo(recipe.getId());

@@ -4,6 +4,11 @@ public class Ingredient {
     private String name; //name of ingredient
     private String image; //image url for ingredient
 
+    public Ingredient(String name, String imagePath) {
+        this.name = name;
+        this.image = imagePath;
+    }
+
     public String getName() {
         return name;
     }
