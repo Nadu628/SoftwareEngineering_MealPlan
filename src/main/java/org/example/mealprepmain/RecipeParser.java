@@ -1,8 +1,5 @@
 package org.example.mealprepmain;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.lang.classfile.Instruction;
 import java.util.ArrayList;
@@ -53,28 +50,53 @@ public class RecipeParser {
 
      */
 
-    public Recipe parseRecipeDetails(String jsonResponse){
-        try{
-            JsonObject jsonObject = new Gson().fromJson(jsonResponse, JsonObject.class);
-            Recipe recipe = new Gson().fromJson(jsonResponse, Recipe.class);
+    public Recipe parseRecipeDetails(String jsonResponse) {
+        try {
+            JsonObject recipeObj = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
-            if(recipe.getInstructions() != null){
-                System.out.println("recipe instructions found: " + recipe.getInstructions().size());
-                for(RecipeInstructions instruction: recipe.getInstructions()){
-                    if(instruction.getSteps() != null){
-                        for(InstructionStep step : instruction.getSteps()){
-                            System.out.println("step: " + step.getNumber() + ": " + step.getStep());
+            int id = recipeObj.get("id").getAsInt();
+            String title = recipeObj.get("title").getAsString();
+            String image = recipeObj.get("image").getAsString();
+
+            List<RecipeInstructions> instructions = new ArrayList<>();
+            if (recipeObj.has("analyzedInstructions")) {  // <-- FIXED from instructions
+                JsonArray instructionsArray = recipeObj.getAsJsonArray("analyzedInstructions");
+                for (JsonElement instr : instructionsArray) {
+                    JsonObject instrObj = instr.getAsJsonObject();
+                    if (instrObj.has("steps")) {
+                        List<InstructionStep> steps = new ArrayList<>();
+                        JsonArray stepsArray = instrObj.getAsJsonArray("steps");
+                        for (JsonElement stepElement : stepsArray) {
+                            JsonObject stepObj = stepElement.getAsJsonObject();
+                            int number = stepObj.get("number").getAsInt();
+                            String step = stepObj.get("step").getAsString();
+                            steps.add(new InstructionStep(number, step));
                         }
-                    }else{
-                        System.out.println("no steps found for instructions set");
+                        instructions.add(new RecipeInstructions(steps));
                     }
                 }
-            }else{
-                System.out.println("recipe instructions not found");
             }
+
+            List<Ingredient> ingredients = new ArrayList<>();
+            if (recipeObj.has("extendedIngredients")) {
+                JsonArray ingredientsArray = recipeObj.getAsJsonArray("extendedIngredients");
+                for (JsonElement ingredientElement : ingredientsArray) {
+                    JsonObject ingredientObj = ingredientElement.getAsJsonObject();
+                    String name = ingredientObj.get("name").getAsString();
+                    String imagePath = ingredientObj.has("image") ? ingredientObj.get("image").getAsString() : "";
+                    ingredients.add(new Ingredient(name, imagePath));
+                }
+            }
+
+            Recipe recipe = new Recipe();
+            recipe.setId(id);
+            recipe.setTitle(title);
+            recipe.setImage(image);
+            recipe.setInstructions(instructions);
+            recipe.setIngredients(ingredients);
             return recipe;
-        }catch(Exception e){
-            System.err.println("error parsing json response");
+
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

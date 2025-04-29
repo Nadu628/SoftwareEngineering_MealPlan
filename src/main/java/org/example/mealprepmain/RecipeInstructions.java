@@ -10,6 +10,10 @@ public class RecipeInstructions {
     @SerializedName("name")
     private String name;
 
+    public RecipeInstructions(List<InstructionStep> steps) {
+        this.steps = steps;
+    }
+
     public String getName(){
         return name;
     }
