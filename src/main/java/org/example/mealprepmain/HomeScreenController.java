@@ -40,6 +40,14 @@ public class HomeScreenController {
     private ListView<String> savedMealsListView;
     @FXML
     private TilePane savedMealIngredientsTilePane;
+    @FXML
+    private ComboBox<String> daysComboBox;
+    @FXML
+    private Button assignMealButton;
+
+    private final String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    private final List<String> mealPlan = new ArrayList<>(); // Indexed 0-6 for each day
+
 
 
     private RecipeServer recipeServer = new RecipeServer();
@@ -75,7 +83,18 @@ public class HomeScreenController {
         ingredientsTilePane.setVgap(10);
         directionsVBox.prefWidthProperty().bind(directionsScrollPane.widthProperty().subtract(20));
         directionsVBox.setSpacing(10);
+
+        // 👇 Initialize daysComboBox
+        daysComboBox.getItems().addAll(daysOfWeek);
+        // Initialize meal plan with empty
+        for (int i = 0; i < 7; i++) {
+            mealPlan.add(""); // Start with empty days
+        }
+
+        assignMealButton.setOnAction(event -> assignMealToDay());
     }
+
+
 
     // Setters for login data
     public void setUsername(String username) {
@@ -85,6 +104,30 @@ public class HomeScreenController {
         this.userId = userId;
         loadSavedMeals();
     }
+
+    private void assignMealToDay() {
+        String selectedMeal = savedMealsListView.getSelectionModel().getSelectedItem();
+        String selectedDay = daysComboBox.getValue();
+
+        if (selectedMeal == null || selectedDay == null) {
+            showAlert(Alert.AlertType.WARNING, "Incomplete Selection", "Please select a meal and a day!");
+            return;
+        }
+
+        int dayIndex = -1;
+        for (int i = 0; i < daysOfWeek.length; i++) {
+            if (daysOfWeek[i].equals(selectedDay)) {
+                dayIndex = i;
+                break;
+            }
+        }
+
+        if (dayIndex != -1) {
+            mealPlan.set(dayIndex, selectedMeal);
+            showAlert(Alert.AlertType.INFORMATION, "Meal Assigned", "Assigned '" + selectedMeal + "' to " + selectedDay + ".");
+        }
+    }
+
 
     private void loadSavedMeals() {
         List<Meal> meals = Database.loadMeals(userId);

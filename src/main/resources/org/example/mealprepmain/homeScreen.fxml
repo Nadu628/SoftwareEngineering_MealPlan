@@ -131,6 +131,7 @@
          <!-- Ingredients Pane -->
          <VBox fx:id="ingredientsPane" spacing="20" visible="false" alignment="CENTER">
             <Label text="Ingredients Pane" style="-fx-font-size: 24px;" />
+
             <VBox spacing="10" alignment="CENTER">
                <Label text="Saved Meals" style="-fx-font-size: 18px;" />
                <ListView fx:id="savedMealsListView" prefHeight="200" prefWidth="300" />
@@ -145,7 +146,13 @@
                   </TilePane>
                </content>
             </ScrollPane>
+
+            <HBox spacing="10" alignment="CENTER">
+               <ComboBox fx:id="daysComboBox" promptText="Select Day" prefWidth="200"/>
+               <Button fx:id="assignMealButton" text="Assign Meal to Day" />
+            </HBox>
          </VBox>
+
 
 
          <!-- Calendar Pane -->
