@@ -154,11 +154,13 @@
          </VBox>
 
 
-
          <!-- Calendar Pane -->
          <VBox fx:id="calendarPane" spacing="20" visible="false" alignment="CENTER">
-            <Label text="Calendar Pane" style="-fx-font-size: 24px;" />
+            <Label text="Weekly Meal Plan" style="-fx-font-size: 24px;" />
+
+            <ListView fx:id="calendarMealPlanListView" prefWidth="400" prefHeight="500" />
          </VBox>
+
 
       </StackPane>
    </center>
