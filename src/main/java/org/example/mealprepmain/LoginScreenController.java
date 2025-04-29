@@ -24,7 +24,7 @@ public class LoginScreenController {
     private TextField usernameTF, passwordTF;
 
     @FXML
-    private Button registerButton, createNewPasswordButton, loginButton;
+    private Button createNewPasswordButton, loginButton, signUpButton;
 
     @FXML
     private ImageView loginScreenIV;
@@ -40,7 +40,7 @@ public class LoginScreenController {
     @FXML
     public void initialize() {
         loginButton.setOnAction(event -> handleLogin());
-        registerButton.setOnAction(event -> navigateToRegistration());
+        signUpButton.setOnAction(event -> navigateToRegistration());
     }
 
     @FXML

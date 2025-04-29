@@ -38,7 +38,7 @@
                   <Font name="Monospaced Regular" size="17.0" />
                </font>
             </Label>
-            <Button fx:id="registerButton" layoutX="537.0" layoutY="369.0" mnemonicParsing="false" text="Sign Up">
+            <Button fx:id="signUpButton" layoutX="537.0" layoutY="369.0" mnemonicParsing="false" text="Sign Up">
                <font>
                   <Font name="Monospaced Regular" size="13.0" />
                </font>

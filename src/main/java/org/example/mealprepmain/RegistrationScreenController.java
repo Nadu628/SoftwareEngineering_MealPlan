@@ -1,17 +1,22 @@
 package org.example.mealprepmain;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.example.mealprepmain.database.Database;
 
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ import java.util.List;
 
 public class RegistrationScreenController {
 
+    private Stage stage;
     @FXML
     private TextField firstNameTextField, lastNameTextField, emailTextField, birthdayTextField;
     @FXML
@@ -30,6 +36,8 @@ public class RegistrationScreenController {
     Pane registrationPane;
     @FXML
     ImageView eatingImageView;
+    @FXML
+    Button registerButton;
 
     private User user;
 
@@ -38,17 +46,18 @@ public class RegistrationScreenController {
         System.out.println("RegistrationScreenController initialized");
     }
 
+
     @FXML
     public void handleSubmit(){
         // Validate passwords match
         if (!passwordField.getText().equals(confirmPasswordField.getText())) {
-            showAlert("Passwords do not match!", "Please make sure your passwords match.");
+            showAlert(AlertType.ERROR, "Passwords do not match!", "Please make sure your passwords match.");
             return;
         }
 
         // Validate password is not empty
         if (passwordField.getText().isEmpty()) {
-            showAlert("Password required", "Please enter a password.");
+            showAlert(AlertType.ERROR, "Password required", "Please enter a password.");
             return;
         }
 
@@ -110,6 +119,37 @@ public class RegistrationScreenController {
 
             clearForm();
         }
+        navigateToHomeScreen();
+    }
+    private void navigateToHomeScreen() {
+        try{
+            FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), registerButton.getScene().getRoot());
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.setOnFinished(event -> {
+                try{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/homeScreen.fxml"));
+                    BorderPane homeScreen = loader.load();
+
+                    Stage currentStage = (Stage) registerButton.getScene().getWindow();
+                    Scene homeScene = new Scene(homeScreen, 1000, 800);
+                    currentStage.setScene(homeScene);
+                    currentStage.setMaximized(true);
+
+                    FadeTransition fadein = new FadeTransition(Duration.seconds(1), homeScene.getRoot());
+                    fadein.setFromValue(0.0);
+                    fadein.setToValue(1.0);
+                    fadein.play();
+                }catch(Exception e){
+                    e.printStackTrace();
+                    showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occurred while navigating to the home screen.");
+                }
+            });
+            fadeOut.play();
+        }catch(Exception e){
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occurred while navigating to the home screen.");
+        }
     }
 
     private boolean saveUserToDatabase(User user) {
@@ -134,7 +174,7 @@ public class RegistrationScreenController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert("Database Error", "Failed to save user: " + e.getMessage());
+            showAlert(AlertType.ERROR, "Database Error", "Failed to save user: " + e.getMessage());
             return false;
         }
     }
@@ -159,7 +199,7 @@ public class RegistrationScreenController {
         nutFreeCheckBox.setSelected(false);
     }
 
-    private void showAlert(String title, String message) {
+    private void showAlert(AlertType error, String title, String message) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
