@@ -18,11 +18,7 @@ import java.sql.*;
 public class LoginScreenController {
 
     private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-        System.out.println("stage reference set in login screen controller");
-    }
+    private int authenticatedUserId = -1;
 
     @FXML
     private TextField usernameTF, passwordTF;
@@ -33,54 +29,45 @@ public class LoginScreenController {
     @FXML
     private ImageView loginScreenIV;
 
-    //Placeholder credentials
     private static final String USERNAME = "user1";
     private static final String EMAIL = "user1@example.com";
-    private static final String PASSWORD = HandlePasswordHash.hashPassword("password"); //hashed password
+    private static final String PASSWORD = HandlePasswordHash.hashPassword("password");
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @FXML
     public void initialize() {
-        System.out.println("Initializing Login Screen");
         loginButton.setOnAction(event -> handleLogin());
         registerButton.setOnAction(event -> navigateToRegistration());
     }
 
     @FXML
-    private void handleLogin(){
-        //debug
-        System.out.println("handle login invoked");
-
+    private void handleLogin() {
         String username = usernameTF.getText();
         String password = passwordTF.getText();
 
-        //debug
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-
-        //basic validation
-        if(username.isEmpty() || password.isEmpty()){
-            showAlert(Alert.AlertType.WARNING, "Error", "Please enter all the fields");
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please enter all fields");
             return;
         }
-        //authentication - change from validateCredentials to validateDatabaseCredentials
-        if(validateDatabaseCredentials(username, password)){
-            try{
+
+        if (validateDatabaseCredentials(username, password)) {
+            try {
                 showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome " + username + "!");
                 navigateToHomeScreen();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
-            showAlert(Alert.AlertType.ERROR, "Login Failed",  "Please try again");
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Login Failed", "Please try again");
         }
-    }
-    private boolean validateCredentials(String username, String password){
-        return (USERNAME.equals(username) || EMAIL.equals(username)) && HandlePasswordHash.checkPassword(password, PASSWORD);
     }
 
     private boolean validateDatabaseCredentials(String username, String password) {
         try (Connection conn = Database.connect()) {
-            String query = "SELECT password FROM users WHERE username = ? OR email = ?";
+            String query = "SELECT id, password FROM users WHERE username = ? OR email = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, username);
@@ -88,7 +75,10 @@ public class LoginScreenController {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String storedPasswordHash = resultSet.getString("password");
-                return HandlePasswordHash.checkPassword(password, storedPasswordHash);
+                if (HandlePasswordHash.checkPassword(password, storedPasswordHash)) {
+                    authenticatedUserId = resultSet.getInt("id");
+                    return true;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,75 +88,68 @@ public class LoginScreenController {
     }
 
     @FXML
-    private void navigateToHomeScreen(){
-        try{
-            FadeTransition fadeout = new FadeTransition(Duration.seconds(1),stage.getScene().getRoot());
-            fadeout.setFromValue(1.0);
-            fadeout.setToValue(0.0);
-            fadeout.setOnFinished(event ->{
-                try{
+    private void navigateToHomeScreen() {
+        try {
+            FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), stage.getScene().getRoot());
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.setOnFinished(event -> {
+                try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/homeScreen.fxml"));
                     BorderPane homeScreen = loader.load();
-
                     HomeScreenController controller = loader.getController();
                     controller.setUsername(usernameTF.getText());
+                    controller.setUserId(authenticatedUserId);
 
-                    //get current stage and set new scene
-                    Stage stage = (Stage) loginButton.getScene().getWindow();
-                    Scene homeScene = new Scene(homeScreen, 800, 600);
-                    stage.setScene(homeScene);
-                    stage.setMaximized(true);
+                    Stage currentStage = (Stage) loginButton.getScene().getWindow();
+                    Scene homeScene = new Scene(homeScreen, 1000, 800);
+                    currentStage.setScene(homeScene);
+                    currentStage.setMaximized(true);
 
-                    FadeTransition fadein = new FadeTransition(Duration.seconds(1),homeScene.getRoot());
-                    fadein.setFromValue(0.0);
-                    fadein.setToValue(1.0);
-                    fadein.play();
-                    System.out.println("transitioned to home screen");
-                }catch(IOException e){
+                    FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), homeScene.getRoot());
+                    fadeIn.setFromValue(0.0);
+                    fadeIn.setToValue(1.0);
+                    fadeIn.play();
+                } catch (IOException e) {
                     e.printStackTrace();
-                    System.err.println("Error transitioning to home screen");
                 }
             });
-            fadeout.play();
+            fadeOut.play();
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occured while navigating to the home screen");
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occurred while navigating to the Home Screen");
         }
-
     }
 
     @FXML
-    private void navigateToRegistration(){
-        try{
-            FadeTransition fadeout = new FadeTransition(Duration.seconds(1),stage.getScene().getRoot());
-            fadeout.setFromValue(1.0);
-            fadeout.setToValue(0.0);
-            fadeout.setOnFinished(event ->{
-                try{
+    private void navigateToRegistration() {
+        try {
+            FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), stage.getScene().getRoot());
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.setOnFinished(event -> {
+                try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/registrationScreen.fxml"));
                     AnchorPane registrationScreen = loader.load();
-
                     Scene registrationScene = new Scene(registrationScreen, 800, 600);
                     stage.setScene(registrationScene);
 
-                    FadeTransition fadein = new FadeTransition(Duration.seconds(1),registrationScene.getRoot());
-                    fadein.setFromValue(0.0);
-                    fadein.setToValue(1.0);
-                    fadein.play();
-                    System.out.println("transitioned to registration screen");
-                }catch(IOException e){
+                    FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), registrationScene.getRoot());
+                    fadeIn.setFromValue(0.0);
+                    fadeIn.setToValue(1.0);
+                    fadeIn.play();
+                } catch (IOException e) {
                     e.printStackTrace();
-                    System.err.println("Error transitioning to registration screen");
                 }
             });
-            fadeout.play();
-        }catch(Exception e){
+            fadeOut.play();
+        } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occured while navigating to the registration screen");
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occurred while navigating to the Registration Screen");
         }
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message){
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(message);
