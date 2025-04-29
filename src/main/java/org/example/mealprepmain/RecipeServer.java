@@ -8,7 +8,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 
 public class RecipeServer {
 
-    private static final boolean MOCK_MODE = true;
+    private static final boolean MOCK_MODE = false;
     private static final String API_KEY = "340efd72260a4e5f8777eda177c0e8c6";
     private static final String BASE_URL = "https://api.spoonacular.com/";
 
