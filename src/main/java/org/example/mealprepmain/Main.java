@@ -27,7 +27,8 @@ public class Main extends Application {
         FXMLLoader homeLoader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/homeScreen.fxml"));
         Parent homeRoot = homeLoader.load();
         Scene scene = new Scene(homeRoot, 1000, 800);
-        stage.setTitle("Meal Prep");
+        stage.setTitle("Meal Prep Tech");
+        stage.centerOnScreen();
         stage.setScene(scene);
         stage.show();
         try{
