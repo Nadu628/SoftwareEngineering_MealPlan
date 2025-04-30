@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.mealprepmain.database.Database;
+import javafx.scene.control.PasswordField;
 
 import java.io.IOException;
 import java.sql.*;
@@ -21,7 +22,10 @@ public class LoginScreenController {
     private int authenticatedUserId = -1;
 
     @FXML
-    private TextField usernameTF, passwordTF;
+    private TextField usernameTF;
+
+    @FXML
+    private PasswordField passwordTF;
 
     @FXML
     private Button createNewPasswordButton, loginButton, signUpButton;
