@@ -45,6 +45,7 @@ public class LoginScreenController {
     public void initialize() {
         loginButton.setOnAction(event -> handleLogin());
         signUpButton.setOnAction(event -> navigateToRegistration());
+        createNewPasswordButton.setOnAction(event -> navigateToChangePassword());
     }
 
     @FXML
@@ -150,6 +151,29 @@ public class LoginScreenController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Navigation Error", "An error occurred while navigating to the Registration Screen");
+        }
+    }
+    @FXML
+    private void navigateToChangePassword() {
+        String username = usernameTF.getText();
+        if (username.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please enter your username first");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/mealprepmain/passwordChangeScreen.fxml"));
+            AnchorPane changePasswordScreen = loader.load();
+            ChangePasswordController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setUserId(authenticatedUserId);
+            controller.setUsername(username);
+
+            Scene changePasswordScene = new Scene(changePasswordScreen, 600, 400);
+            stage.setScene(changePasswordScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to load change password screen");
         }
     }
 

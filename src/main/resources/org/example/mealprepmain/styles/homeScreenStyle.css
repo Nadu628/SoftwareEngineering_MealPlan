@@ -1,0 +1,19 @@
+.root {
+    -fx-background-color: white;
+}
+
+#mealsIcon, #ingredientsIcon, #plannerIcon {
+    -fx-effect: none;
+    -fx-padding: 15;
+}
+
+#mealsIcon:hover, #ingredientsIcon:hover, #plannerIcon:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.8;
+}
+
+.separator:vertical {
+    -fx-background-color: #e0e0e0;
+    -fx-pref-width: 1px;
+    -fx-padding: 0;
+}

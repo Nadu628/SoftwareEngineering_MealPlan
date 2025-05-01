@@ -9,11 +9,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.LoginScreenController">
+<?import javafx.scene.control.PasswordField?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0" styleClass="login-container" xmlns="http://javafx.com/javafx/23.0.1"
+            stylesheets="@styles/loginStyle.css"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.mealprepmain.LoginScreenController">
    <children>
       <Pane fx:id="loginPane" layoutX="60.0" layoutY="39.0" prefHeight="523.0" prefWidth="680.0">
          <children>
-            <Label layoutX="266.0" layoutY="34.0" text="Sign In">
+            <Label id="loginTitle" layoutX="266.0" layoutY="34.0" text="Sign In">
                <font>
                   <Font name="Monospaced Bold" size="30.0" />
                </font>
@@ -44,7 +48,7 @@
                </font>
             </Button>
             <TextField fx:id="usernameTF" layoutX="329.0" layoutY="254.0" prefHeight="25.0" prefWidth="254.0" promptText="enter username or email" />
-            <TextField fx:id="passwordTF" layoutX="329.0" layoutY="311.0" prefHeight="25.0" prefWidth="254.0" promptText="enter password" />
+            <PasswordField fx:id="passwordTF" layoutX="329.0" layoutY="311.0" prefHeight="25.0" prefWidth="254.0" promptText="enter password" />
             <Label layoutX="150.0" layoutY="407.0" text="Forgot your Password? ">
                <font>
                   <Font name="Monospaced Regular" size="17.0" />
@@ -55,7 +59,7 @@
                   <Font name="Monospaced Regular" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="loginButton" layoutX="593.0" layoutY="312.0" mnemonicParsing="false" text="Log in">
+            <Button fx:id="loginButton" id="loginButton" layoutX="593.0" layoutY="312.0" mnemonicParsing="false" text="Log in">
                <font>
                   <Font name="Monospaced Regular" size="13.0" />
                </font>
